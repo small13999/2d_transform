@@ -69,7 +69,8 @@ function drawTransform() {
     }
 
     gridLines.forEach(gridLine => {
-        for (let t = -800; t<0; t++) {                       // x=500 y=300 pont ,helye a 300-300
+        let points = [];
+        for (let t = -800; t<=0; t+=800) {                       // x=500 y=300 pont ,helye a 300-300
             let x = 400 + gridLine.p.x * 100 + gridLine.v.x*t;  // x = 500
             let y = 400 + -gridLine.p.y * 100 + gridLine.v.y*t; // y = 300
     
@@ -77,13 +78,15 @@ function drawTransform() {
             let targetY = x*x2+y*y2 //x*x2+y*y2;
             let dx = targetX - x;
             let dy = targetY - y;
-            if ((gridLine.p.x == -4 && gridLine.p.y == 0) || (gridLine.p.x == 0 && gridLine.p.y == 4)) {
-                drawPixel(x+400 + dx/200*i, y+400 + dy/200*i, 0, 0, 0);
-            } else {
-                drawPixel(x+400 + dx/200*i, y+400 + dy/200*i, 255, 255, 255);
-            }
-            
+            //if ((gridLine.p.x == -4 && gridLine.p.y == 0) || (gridLine.p.x == 0 && gridLine.p.y == 4)) {
+            points.push({x: x+400 + dx/200*i, y: y+400 + dy/200*i});
         }
+            ctx.strokeStyle = "black";
+            ctx.lineWidth = 3;
+            ctx.beginPath();
+            ctx.moveTo(points[0].x, 800-points[0].y);
+            ctx.lineTo(points[1].x, 800-points[1].y);
+            ctx.stroke();
     });
 
     lines.forEach(line => {
